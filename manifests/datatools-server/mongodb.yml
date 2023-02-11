@@ -16,9 +16,7 @@ spec:
       passwordSecretRef: # a reference to the secret that will be used to generate the user's password
         name: mongodb-user-password
       roles:
-        - name: clusterAdmin
-          db: catalogue
-        - name: userAdminAnyDatabase
+        - name: readWrite
           db: catalogue
       scramCredentialsSecretName: my-scram
   additionalMongodConfig:
