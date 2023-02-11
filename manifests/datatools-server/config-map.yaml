@@ -29,7 +29,7 @@ data:
     # GTFS_DATABASE_PASSWORD:
 
     MONGO_DB_NAME: catalogue
-    MONGO_HOST: mongodb-service:27017 # If running via docker, this is mongo:27017
+    MONGO_HOST: mongodb-svc:27017 # If running via docker, this is mongo:27017
     MONGO_PASSWORD: password
     MONGO_USER: admin
 

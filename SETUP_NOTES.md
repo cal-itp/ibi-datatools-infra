@@ -58,10 +58,10 @@ The documentation at https://data-tools-docs.ibi-transit.com/en/latest/dev/deplo
   Image: "" with ID "sha256:[...]" not yet present on node "kind-control-plane", loading...
   ```
 
-* Create a deployment in kind
+* Apply the k8s configuration
 
   ```console
-  $ create deployment ibi-datatools-server --image=ibi-datatools-server:latest --imagePullPolicy=Never
+  $ kubectl apply -f manifests/datatools-server
   ```
 
 This guide is a good one: https://kubectl.docs.kubernetes.io/guides/introduction/
