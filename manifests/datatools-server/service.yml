@@ -1,0 +1,11 @@
+apiVersion: 'v1'
+kind: Service
+metadata:
+  name: datatools-server-service
+spec:
+  selector:
+    app: ibi-datatools-server
+  ports:
+    - port: 4000
+      protocol: TCP
+      targetPort: 4000

@@ -1,0 +1,10 @@
+kind: Cluster
+apiVersion: kind.x-k8s.io/v1alpha4
+nodes:
+- role: control-plane
+- role: worker
+  extraMounts:
+  # For mongodb, the node needs a /mnt/data path. Choose somewhere on the
+  # local (host) machine that will be mounted as this path.
+  - hostPath: /tmp
+    containerPath: /mnt/data

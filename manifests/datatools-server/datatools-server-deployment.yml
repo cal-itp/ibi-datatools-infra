@@ -1,0 +1,39 @@
+kind: Deployment
+
+# The `apiVersion` is arbitrary. Version 2 is a decent choice.
+apiVersion: 'apps/v1'
+
+metadata:
+  # There are two related deployments here: one for the IBI Datatools server,
+  # and one for the IBI Datatools UI.
+  name: ibi-datatools-server-deployment
+
+spec:
+  template:
+    metadata:
+      name: ibi-datatools-server
+      labels:
+        app: ibi-datatools-server
+    spec:
+      containers:
+        - name: ibi-datatools-server
+
+          # Refer to **Local Development** section of the SETUP_NOTES.md
+          # document to see how to get the docker image built and loaded into
+          # `kind` (which is a tool for working with k8s in a local docker
+          # environment).
+          image: docker.io/library/ibi-datatools-server:latest
+          imagePullPolicy: Never
+          volumeMounts:
+            - name: config-volume
+              mountPath: /config
+      volumes:
+        - name: config-volume
+          configMap:
+            # Provide the name of the ConfigMap containing the files you want
+            # to add to the container
+            name: ibi-datatools-server-configmap
+
+  selector:
+    matchLabels:
+      app: ibi-datatools-server
