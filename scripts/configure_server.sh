@@ -2,7 +2,7 @@
 
 set -e
 
-DATATOOLS_SERVER_COMMIT="b239ed75e61c5ab4a92e36b3697c566e97b86855" # dev HEAD as of Feb 6 2023
+DATATOOLS_SERVER_COMMIT="d61c75767b9b8dcaf8da36c4fe1bd5a747d0f711" # dev HEAD as of Apr 26 2023
 DATATOOLS_CLIENT_ASSETS_URL=http://localhost9966
 
 ROOT="$( cd "$( dirname "${BASH_SOURCE[0]}" )/.." && pwd )"
