@@ -1,0 +1,59 @@
+name: Build and push ibi-datatools-server image
+
+on:
+  push:
+    branches:
+      - 'main'
+    paths:
+      - '.github/workflows/build-ibi-datatools-server-image.yml'
+      - 'scripts/configure_server.sh'
+  pull_request:
+    branches:
+      - 'main'
+    paths:
+      - '.github/workflows/build-ibi-datatools-server-image.yml'
+      - 'scripts/configure_server.sh'
+
+concurrency:
+  group: ${{ github.workflow }}-${{ github.ref }}
+  cancel-in-progress: true
+
+jobs:
+  # Steps should be:
+  # 0. Check out this repo
+  # 1. Clone the latest release of datatools-server repo (https://github.com/ibi-group/datatools-server) to the folder `datatools-server`
+  # 2. Create configuration files in the datatools-server/configurations/default/folder
+  # 3. Build the ibi-datatools-server image from the Dockerfile in the datatools-server folder
+  # 4. Push the datatools-server image to the GitHub Container Registry
+
+  build_push:
+    name: Package docker image
+    runs-on: ubuntu-latest
+    needs: [check]
+    steps:
+      - name: Check out the infra repo
+        uses: actions/checkout@v2
+      - name: Check out the datatools-server repo
+        uses: actions/checkout@v2
+        with:
+          repository: ibi-group/datatools-server
+          path: datatools-server
+      - uses: docker/login-action@v1
+        with:
+          registry: ghcr.io
+          username: ${{ github.actor }}
+          password: ${{ secrets.GITHUB_TOKEN }}
+      - name: Generate the configuration files
+        run: scripts/configure_server.sh
+        env:
+          AUTH0_PUBLIC_KEY: ${{ secrets.AUTH0_PUBLIC_KEY }}
+          AUTH0_CLIENT_ID: ${{ secrets.AUTH0_CLIENT_ID }}
+          AUTH0_API_CLIENT: ${{ secrets.AUTH0_API_CLIENT }}
+          AUTH0_API_SECRET: ${{ secrets.AUTH0_API_SECRET }}
+      - name: Add SHORT_SHA env property with commit short sha
+        run: echo "GITHUB_SHORT_SHA=`git rev-parse --short HEAD`" >> $GITHUB_ENV
+      - uses: docker/build-push-action@v2
+        with:
+          context: ./datatools-server
+          push: ${{ github.ref == 'refs/heads/main' }}
+          tags: ghcr.io/${{github.repository}}/ibi-datatools-server:${{ env.GITHUB_SHORT_SHA }}
