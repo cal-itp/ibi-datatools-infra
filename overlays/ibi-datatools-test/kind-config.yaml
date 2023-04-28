@@ -1,0 +1,20 @@
+kind: Cluster
+apiVersion: kind.x-k8s.io/v1alpha4
+nodes:
+  - role: control-plane
+    kubeadmConfigPatches:
+      - |
+        kind: InitConfiguration
+        nodeRegistration:
+          kubeletExtraArgs:
+            node-labels: "ingress-ready=true"
+    extraPortMappings:
+      - containerPort: 80
+        hostPort: 8080
+        protocol: TCP
+  - role: worker
+    extraMounts:
+    # For mongodb, the node needs a /mnt/data path. Choose somewhere on the
+    # local (host) machine that will be mounted as this path.
+    - hostPath: /tmp
+      containerPath: /mnt/data

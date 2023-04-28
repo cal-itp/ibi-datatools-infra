@@ -1,0 +1,12 @@
+apiVersion: kustomize.config.k8s.io/v1beta1
+kind: Kustomization
+namespace: ibi-datatools-test
+
+resources:
+- ../../manifests/ibi-datatools
+- ns.yaml
+
+images:
+- name: 'ibi-datatools-server'
+  newName: 'ghcr.io/cal-itp/data-infra/ibi-datatools-server'
+  newTag: '2023.4.3'

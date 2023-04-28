@@ -1,0 +1,51 @@
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: datatools-server-deployment
+spec:
+  replicas: 1
+  selector:
+    matchLabels:
+      name: datatools-server
+  strategy:
+    type: Recreate
+  template:
+    metadata:
+      labels:
+        name: datatools-server
+    spec:
+      containers:
+        - image: docker.io/library/ibi-datatools-server:latest
+          imagePullPolicy: Never
+          name: datatools-server
+          # command: ["/bin/sh", "-c", "while true; do sleep 5; done"]
+          ports:
+            - containerPort: 4000
+          resources: {}
+          volumeMounts:
+            - mountPath: /config
+              name: datatools-config
+            # - mountPath: /root/.aws
+            #   name: datatools-server-claim1
+      restartPolicy: Always
+      volumes:
+        - name: datatools-config
+          configMap:
+            name: datatools-server-configmap
+        # - name: datatools-server-claim1
+        #   persistentVolumeClaim:
+        #     claimName: datatools-server-claim1
+
+---
+
+apiVersion: v1
+kind: Service
+metadata:
+  name: datatools-server-service
+spec:
+  ports:
+    - name: "4000"
+      port: 4000
+      targetPort: 4000
+  selector:
+    name: datatools-server

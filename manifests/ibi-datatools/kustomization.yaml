@@ -1,0 +1,5 @@
+resources:
+- datatools-server.yaml
+- datatools-ui.yaml
+- mongo.yaml
+- postgres.yaml
