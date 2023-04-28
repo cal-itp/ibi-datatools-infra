@@ -2,7 +2,7 @@
 
 set -e
 
-DATATOOLS_UI_COMMIT="v5.0.0"
+DATATOOLS_UI_COMMIT="77cb946fa17f7e7a42ed8447c7b387a6f6b19af0" # dev HEAD as of Apr 26 2023
 
 ROOT="$( cd "$( dirname "${BASH_SOURCE[0]}" )/.." && pwd )"
 
