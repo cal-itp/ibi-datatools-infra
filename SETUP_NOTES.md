@@ -84,6 +84,25 @@ The documentation at https://data-tools-docs.ibi-transit.com/en/latest/dev/deplo
 
 * Download your Auth0 public key and save it to a file named _./datatools-server/configurations/default/auth0-public-key.pem_.
 
+* In the _datatools-ui/_ folder, create a _Dockerfile_ with the following contents:
+  
+  ```dockerfile
+  # =================================================================================================
+  # The following is based on https://github.com/ibi-group/datatools-ui/issues/831#issuecomment-1212006536
+  FROM node:14
+  WORKDIR /datatools-build
+  RUN cd /datatools-build
+  COPY package.json yarn.lock /datatools-build/
+  RUN yarn
+  COPY . /datatools-build/
+  COPY configurations/default /datatools-config/
+  RUN yarn run build --minify -c /datatools-config
+
+  FROM nginx
+  COPY --from=0 /datatools-build/dist /usr/share/nginx/html/dist/
+  EXPOSE 80
+  ```
+
 * Use Docker Compose to build and run the containers:
 
   ```console
