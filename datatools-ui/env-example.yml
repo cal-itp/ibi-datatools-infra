@@ -1,0 +1,4 @@
+MAPBOX_ACCESS_TOKEN: YOUR_SECRET_MAPBOX_TOKEN
+MAPBOX_MAP_ID: mapbox/outdoors-v11
+MAPBOX_ATTRIBUTION: <a href="https://www.mapbox.com/about/maps/" target="_blank">&copy; Mapbox &copy; OpenStreetMap</a> <a href="https://www.mapbox.com/map-feedback/" target="_blank">Improve this map</a>
+GRAPH_HOPPER_KEY: YOUR_SECRET_GRAPHHOPPER_KEY

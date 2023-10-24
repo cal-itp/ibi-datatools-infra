@@ -4,13 +4,6 @@ services:
     build: ./datatools-server/
     ports:
       - "4000:4000"
-    volumes:
-      - type: bind
-        source: ./datatools-server/configurations/default/
-        target: /config
-      - type: bind
-        source: ~/.aws
-        target: /root/.aws
     depends_on:
       - mongo
       - postgres
